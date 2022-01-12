@@ -7,11 +7,12 @@
     tools:context=".MainActivity">
 
     <!--    Left Side Views     -->
+
     <TextView
         android:id="@+id/tvBaseLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="56dp"
         android:layout_marginTop="48dp"
         android:text="Base"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -66,7 +67,7 @@
 
     <SeekBar
         android:id="@+id/seekBarTip"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:max="30"
         app:layout_constraintBottom_toBottomOf="@+id/tvTipPercentLabel"
@@ -117,5 +118,46 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSplitLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Split"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvBaseLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalLabel" />
+
+    <SeekBar
+        android:id="@+id/seekBarSplit"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:max="10"
+        android:progress="3"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSplitLabel"
+        app:layout_constraintStart_toStartOf="@+id/tvTotalAmount"
+        app:layout_constraintTop_toTopOf="@+id/tvSplitLabel" />
+
+    <TextView
+        android:id="@+id/tvPerPersonAmountLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Per Person"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvBaseLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvSplitLabel" />
+
+    <TextView
+        android:id="@+id/tvPerPersonAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvPerPersonAmountLabel"
+        app:layout_constraintStart_toStartOf="@+id/seekBarSplit"
+        app:layout_constraintTop_toTopOf="@+id/tvPerPersonAmountLabel"
+        tools:text="46.26" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

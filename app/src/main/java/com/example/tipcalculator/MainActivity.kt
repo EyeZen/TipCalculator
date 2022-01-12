@@ -23,17 +23,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTipAmount: TextView
     private lateinit var tvTotalAmount: TextView
     private lateinit var tvTipCaption: TextView
+    private lateinit var tvPerPersonAmount: TextView
+    private lateinit var seekBarSplit: SeekBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         etBaseAmount  = findViewById(R.id.etBaseAmount)
-        seekBarTip    = findViewById(R.id.seekBarTip)
+        seekBarSplit    = findViewById(R.id.seekBarSplit)
         tvTipPercent  = findViewById(R.id.tvTipPercentLabel)
         tvTipAmount   = findViewById(R.id.tvTipAmount)
         tvTotalAmount = findViewById(R.id.tvTotalAmount)
-        tvTipCaption = findViewById(R.id.tvTipCaption)
+        tvTipCaption  = findViewById(R.id.tvTipCaption)
+        tvPerPersonAmount = findViewById(R.id.tvPerPersonAmount)
+        seekBarTip    = findViewById(R.id.seekBarTip)
 
         computeTipAndTotal(0)
         seekBarTip.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
@@ -57,6 +61,19 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(p0: Editable?) {}
+
+        })
+
+        seekBarSplit.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                computeTipAndTotal(seekBarTip.progress)
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+                Toast.makeText(this@MainActivity    , "Total$ = Base$ + Tip$", Toast.LENGTH_SHORT).show()
+            }
 
         })
     }
@@ -83,15 +100,22 @@ class MainActivity : AppCompatActivity() {
             tvTipPercent.text = "15%"
             tvTipAmount.text = ""
             tvTotalAmount.text = ""
+            tvPerPersonAmount.text = ""
+            seekBarSplit.progress = 0
 
             return
         }
         val baseAmount = etBaseAmount.text.toString().toDouble()
         val tipAmt = baseAmount * tipPercent / 100.0
         val totalAmt = Math.ceil( baseAmount + tipAmt )
+        val splitVal = seekBarSplit.progress
+        val numPerson = splitVal + 1
+        val perPersonAmt = totalAmt / numPerson
+
         tvTipPercent .text = "$tipPercent%"
         tvTipAmount  .text = "$%.2f".format(tipAmt)
         tvTotalAmount.text = "$%.2f".format(totalAmt)
+        tvPerPersonAmount.text = "$%.2f".format(perPersonAmt)
 
         updateCaption(tipPercent)
 
