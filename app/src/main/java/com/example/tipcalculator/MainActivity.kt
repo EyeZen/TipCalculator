@@ -1,5 +1,6 @@
 package com.example.tipcalculator
 
+import android.animation.ArgbEvaluator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -9,6 +10,7 @@ import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTipPercent: TextView
     private lateinit var tvTipAmount: TextView
     private lateinit var tvTotalAmount: TextView
+    private lateinit var tvTipCaption: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         tvTipPercent  = findViewById(R.id.tvTipPercentLabel)
         tvTipAmount   = findViewById(R.id.tvTipAmount)
         tvTotalAmount = findViewById(R.id.tvTotalAmount)
+        tvTipCaption = findViewById(R.id.tvTipCaption)
 
         computeTipAndTotal(0)
         seekBarTip.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
@@ -57,11 +61,26 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    private fun updateCaption(progress: Int) {
+        tvTipCaption.text = when(progress) {
+            in 0..5 -> "Poor"
+            in 5..15 -> "Appreciable"
+            in 15..20 -> "Good"
+            in 20..25 -> "Great"
+            else -> "Awesome"
+        }
+        val progressFraction = progress.toFloat() / 30
+        val color = ArgbEvaluator().evaluate(progressFraction,
+                                             ContextCompat.getColor(this, R.color.red),
+                                             ContextCompat.getColor(this, R.color.green)) as Int
+        tvTipCaption.setTextColor(color)
+    }
+
     private fun computeTipAndTotal(tipPercent: Int) {
         if(etBaseAmount.text.isEmpty()) {
             Toast.makeText(this, "Enter Base Amount", Toast.LENGTH_SHORT).show()
             seekBarTip.progress = 15
-            tvTipPercent.text = "0%"
+            tvTipPercent.text = "15%"
             tvTipAmount.text = ""
             tvTotalAmount.text = ""
 
@@ -69,10 +88,12 @@ class MainActivity : AppCompatActivity() {
         }
         val baseAmount = etBaseAmount.text.toString().toDouble()
         val tipAmt = baseAmount * tipPercent / 100.0
-        val totalAmt = baseAmount + tipAmt
+        val totalAmt = Math.ceil( baseAmount + tipAmt )
         tvTipPercent .text = "$tipPercent%"
         tvTipAmount  .text = "$%.2f".format(tipAmt)
         tvTotalAmount.text = "$%.2f".format(totalAmt)
+
+        updateCaption(tipPercent)
 
     }
 }

@@ -13,4 +13,13 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="CustomTheme" parent="Theme.TipCalculator">
+<!--        Header Color        -->
+        <item name="colorPrimary">@color/primary_blue</item>
+<!--        Status Bar Color    -->
+        <item name="colorPrimaryVariant">@color/darker_blue</item>
+<!--        Activity Background Color       -->
+        <item name="android:colorBackground">@color/background_blue</item>
+    </style>
 </resources>

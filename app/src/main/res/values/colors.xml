@@ -8,7 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="color_header">#FFFFFFFF</color>
-    <color name="color_background">#FFFFFFFF</color>
-    <color name="color_text">#FFFFFFFF</color>
+    <color name="primary_blue">#244B6E</color>
+    <color name="darker_blue">#07256E</color>
+    <color name="background_blue">#EFECFB</color>
+
+    <color name="green">#ff00ff00</color>
+    <color name="red">#ffff0000</color>
 </resources>
