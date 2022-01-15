@@ -41,6 +41,7 @@ class HistoryViewAdapter(val tipHistory: MutableList<TipData>) : RecyclerView.Ad
         val tv_person: TextView = itemView.findViewById(R.id.tv_person)
         val tv_per_person: TextView = itemView.findViewById(R.id.tv_per_person)
         val btn_delete: Button = itemView.findViewById(R.id.btn_delete)
+        val tvDateTime: TextView = itemView.findViewById(R.id.tvDateTime)
 
         fun bind(tipData: TipData) {
             data = tipData
@@ -49,6 +50,7 @@ class HistoryViewAdapter(val tipHistory: MutableList<TipData>) : RecyclerView.Ad
             tv_total.text = "$${tipData.totalAmount}"
             tv_person.text = "${tipData.splitNum}"
             tv_per_person.text = "$%.2f".format(tipData.totalAmount / tipData.splitNum)
+            tvDateTime.text = "${tipData.dateTime}"
         }
 
     }

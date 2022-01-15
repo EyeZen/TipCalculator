@@ -20,9 +20,16 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.Serializable
 import java.lang.reflect.Type
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.*
 
 const val TIP_DATA = "tip_history"
-data class TipData(val baseAmount: Double, val tip: Int, val totalAmount: Double, val splitNum: Int = 1) : Serializable
+data class TipData(val baseAmount: Double,
+                   val tip: Int,
+                   val totalAmount: Double,
+                   val splitNum: Int,
+                   val dateTime: String) : Serializable
 val tipHistory = mutableListOf<TipData>()
 
 class MainActivity : AppCompatActivity() {
@@ -78,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(p0: SeekBar?) {}
 
             override fun onStopTrackingTouch(p0: SeekBar?) {
-                Toast.makeText(this@MainActivity    , "Total$ = Base$ + Tip$", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivity    , "Total$ = Base$ + Tip$", Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -102,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             override fun onStartTrackingTouch(p0: SeekBar?) {}
 
             override fun onStopTrackingTouch(p0: SeekBar?) {
-                Toast.makeText(this@MainActivity    , "Total$ = Base$ + Tip$", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivity    , "Total$ = Base$ + Tip$", Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -110,15 +117,16 @@ class MainActivity : AppCompatActivity() {
         val btnPay = findViewById<Button>(R.id.btnPay)
         btnPay.setOnClickListener(object: View.OnClickListener{
             override fun onClick(p0: View?) {
-                Toast.makeText(this@MainActivity, "Payment Initiated", Toast.LENGTH_LONG).show()
+//                Toast.makeText(this@MainActivity, "Payment Initiated", Toast.LENGTH_LONG).show()
 
                 if(computeTipAndTotal(seekBarTip.progress)) {
                     val baseAmount      = etBaseAmount.text.toString().toDouble()
                     val tip             = seekBarTip.progress
                     val totalAmount     = tvTotalAmount.text.toString().substring(1).toDouble()
                     val splitNum        = seekBarSplit.progress + 1
+                    val dateTime        = getCurrentDateTime()
 
-                    val tipData = TipData(baseAmount, tip, totalAmount, splitNum)
+                    val tipData = TipData(baseAmount, tip, totalAmount, 1, dateTime)
 
                     tipHistory.add(tipData)
 
@@ -223,5 +231,11 @@ class MainActivity : AppCompatActivity() {
         tvTotalAmount.text = ""
         tvPerPersonAmount.text = ""
         seekBarSplit.progress = 0
+    }
+
+    private fun getCurrentDateTime(): String {
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date())
+        return currentDate.toString()
     }
 }
